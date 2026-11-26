@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>🔥 소방기술사 5분 컷 10문제</title>
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --text: #181a20;
+      --muted: #6b7280;
+      --primary: #dc2626;
+      --primary-soft: #fef2f2;
+      --accent: #2563eb;
+      --ok: #16a34a;
+      --ok-bg: #f0fdf4;
+      --bad: #dc2626;
+      --bad-bg: #fef2f2;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding-bottom: 48px;
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+    }
+    .topbar-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand {
+      font-weight: 800;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+    .timer {
+      font-variant-numeric: tabular-nums;
+      font-weight: 800;
+      font-size: 18px;
+      padding: 6px 12px;
+      border-radius: 10px;
+      background: #111827;
+      color: #ffffff;
+      min-width: 82px;
+      text-align: center;
+      transition: background 0.2s;
+    }
+    .timer.warn { background: #d97706; }
+    .timer.danger { background: #dc2626; animation: pulse 1s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.72; } }
+
+    .container {
+      max-width: 680px;
+      margin: 18px auto 0;
+      padding: 0 16px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 8px rgba(17, 24, 39, 0.03);
+    }
+    .intro-card {
+      text-align: center;
+      padding: 28px 20px;
+    }
+    .intro-card h1 {
+      margin: 0 0 8px;
+      font-size: 22px;
+    }
+    .intro-card p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .meta-row {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .meta-pill {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: #f3f4f6;
+      color: #374151;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: none;
+      border-radius: 12px;
+      padding: 13px 20px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.08s, opacity 0.15s;
+      width: 100%;
+    }
+    .btn:active { transform: scale(0.99); }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-dark { background: #111827; color: #fff; }
+    .btn-outline { background: #fff; color: #111827; border: 1px solid var(--border); }
+
+    .q-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .q-num {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .q-ref {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      background: #f3f4f6;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    .q-text {
+      font-size: 15px;
+      font-weight: 600;
+      margin: 0 0 12px;
+    }
+    .blank-input {
+      width: 100%;
+      padding: 11px 13px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      outline: none;
+    }
+    .blank-input:focus { border-color: var(--accent); }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .opt-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      background: #fff;
+    }
+    .opt-label input { accent-color: var(--primary); width: 17px; height: 17px; }
+    .opt-label.selected { border-color: var(--primary); background: var(--primary-soft); }
+
+    .card.correct { border-color: #86efac; background: var(--ok-bg); }
+    .card.wrong { border-color: #fca5a5; background: var(--bad-bg); }
+    .explain {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(0,0,0,0.12);
+      font-size: 13px;
+      color: #374151;
+      display: none;
+    }
+    .explain.show { display: block; }
+    .result-box {
+      display: none;
+      text-align: center;
+      border: 2px solid #111827;
+    }
+    .result-box.show { display: block; }
+    .score-big {
+      font-size: 34px;
+      font-weight: 900;
+      margin: 6px 0;
+    }
+    .hidden { display: none; }
+    .btn-row { display: flex; gap: 8px; margin-top: 14px; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span>🚒 소방기술사 10문제</span>
+        <span class="badge" id="roundBadge">2026-11-27 · 1회차</span>
+      </div>
+      <div class="timer" id="timer">05:00</div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card intro-card" id="introSection">
+      <h1>🔥 오늘의 소방기술사 5분 컷</h1>
+      <p>핵심 화재안전성능기준(NFPC·NFTC) 수치와 용어 10문제입니다.<br/>시작 버튼을 누르면 <strong>5분 타이머</strong>가 바로 작동합니다.</p>
+      <div class="meta-row">
+        <span class="meta-pill">⏱ 제한시간 5분</span>
+        <span class="meta-pill">📝 빈칸 + 객관식 10문항</span>
+        <span class="meta-pill">✅ 제출 즉시 채점·해설</span>
+      </div>
+      <button class="btn btn-primary" id="startBtn">5분 시험 시작하기</button>
+    </section>
+
+    <section class="card result-box" id="resultBox">
+      <div id="resultTitle" style="font-weight:800; font-size:15px;">채점 결과</div>
+      <div class="score-big" id="scoreText">0 / 10</div>
+      <div id="timeSpentText" style="color:var(--muted); font-size:13px;"></div>
+      <div class="btn-row">
+        <button class="btn btn-dark" id="copyBtn">📋 결과 복사해서 인증하기</button>
+        <button class="btn btn-outline" id="retryBtn">🔄 다시 풀기</button>
+      </div>
+    </section>
+
+    <section id="quizSection" class="hidden">
+      <div id="questionsWrap"></div>
+      <button class="btn btn-primary" id="submitBtn">제출하고 채점하기</button>
+    </section>
+  </main>
+
+  <script>
+    const QUIZ_DATE = "2026-11-27 (1회차)";
+    const TOTAL_SECONDS = 300;
+    const QUESTIONS = [
+      {
+        id: 1,
+        ref: "NFPC 101 · 소화기구",
+        type: "blank",
+        prompt: "특정소방대상물의 각 부분으로부터 1개의 소형소화기까지의 보행거리는 (   ) m 이내여야 한다. (숫자만 입력)",
+        answers: ["20"],
+        explain: "정답: 20m (소형소화기는 보행거리 20m 이내, 대형소화기는 30m 이내마다 설치해야 합니다.)"
+      },
+      {
+        id: 2,
+        ref: "NFPC 102 · 옥내소화전",
+        type: "choice",
+        prompt: "옥내소화전설비 노즐 선단에서의 최소 방수압력과 최소 방수량 기준은?",
+        choices: [
+          "0.1 MPa 이상 / 80 L/min 이상",
+          "0.17 MPa 이상 / 130 L/min 이상",
+          "0.25 MPa 이상 / 350 L/min 이상",
+          "0.35 MPa 이상 / 250 L/min 이상"
+        ],
+        answerIndex: 1,
+        explain: "정답: 0.17 MPa 이상 / 130 L/min 이상 (최대 방수압력은 0.7 MPa 이하이며, 초과 시 감압장치를 설치합니다.)"
+      },
+      {
+        id: 3,
+        ref: "NFPC 102 · 옥내소화전 수원",
+        type: "blank",
+        prompt: "옥내소화전설비의 수원은 설치개수가 가장 많은 층의 설치개수(최대 2개)에 (   ) ㎥를 곱한 양 이상이어야 한다. (숫자만 입력)",
+        answers: ["2.6"],
+        explain: "정답: 2.6㎥ (130 L/min × 20분 = 2,600 L = 2.6㎥입니다.)"
+      },
+      {
+        id: 4,
+        ref: "NFPC 102 · 가압송수장치",
+        type: "blank",
+        prompt: "가압송수장치 펌프의 체절운전 시 토출압력은 정격토출압력의 (   ) %를 초과하지 않아야 한다. (숫자만 입력)",
+        answers: ["140"],
+        explain: "정답: 140% (체절운전 시 정격토출압력의 140% 이하, 정격토출량의 150% 운전 시 65% 이상이어야 합니다.)"
+      },
+      {
+        id: 5,
+        ref: "NFPC 102 · 펌프 성능",
+        type: "choice",
+        prompt: "펌프를 정격토출량의 150%로 운전할 때, 토출압력은 정격토출압력의 몇 % 이상이어야 하는가?",
+        choices: ["50%", "60%", "65%", "75%"],
+        answerIndex: 2,
+        explain: "정답: 65% 이상 (성능시험배관으로 확인하는 정격부하·150% 부하 기준입니다.)"
+      },
+      {
+        id: 6,
+        ref: "NFPC 109 · 옥외소화전",
+        type: "blank",
+        prompt: "옥외소화전설비의 노즐 선단에서의 방수량은 분당 (   ) L 이상이어야 한다. (숫자만 입력)",
+        answers: ["350"],
+        explain: "정답: 350 L/min 이상 (방수압력은 0.25 MPa 이상 ~ 0.7 MPa 이하, 수평거리는 40m 이하입니다.)"
+      },
+      {
+        id: 7,
+        ref: "NFTC 103 · 스프링클러",
+        type: "choice",
+        prompt: "폐쇄형 스프링클러헤드 배치 시 내화구조 특정소방대상물(아파트 세대 내·특수가연물 제외)의 헤드 수평거리 r 기준은?",
+        choices: ["1.7 m 이하", "2.1 m 이하", "2.3 m 이하", "2.6 m 이하"],
+        answerIndex: 2,
+        explain: "정답: 2.3 m 이하 (일반 특정소방대상물 2.1m, 무대부·특수가연물 1.7m, 아파트 세대 내 2.6m 이하입니다.)"
+      },
+      {
+        id: 8,
+        ref: "NFPC 103 · 스프링클러 방식",
+        type: "choice",
+        prompt: "배관 내에 항상 가압수가 충수되어 있고, 화재 열로 폐쇄형 헤드가 개방되면 즉시 방수되는 스프링클러 방식은?",
+        choices: ["습식", "건식", "준비작동식", "일제살수식"],
+        answerIndex: 0,
+        explain: "정답: 습식 스프링클러 (동결 우려가 없는 장소에 사용하며 작동이 가장 빠릅니다.)"
+      },
+      {
+        id: 9,
+        ref: "NFPC 501A · 부속실 제연",
+        type: "blank",
+        prompt: "특별피난계단 계단실 및 부속실 제연설비에서 제연구역과 옥내 사이의 최소 차압 기준은 (   ) Pa 이상이어야 한다. (숫자만 입력)",
+        answers: ["40"],
+        explain: "정답: 40 Pa 이상 (차압 상한은 60 Pa 이하, 옥내와 제연구역 사이 출입문 폐쇄 상태에서 유지해야 합니다.)"
+      },
+      {
+        id: 10,
+        ref: "NFPC 501A · 제연 출입문",
+        type: "blank",
+        prompt: "제연설비가 작동 중일 때 출입문을 여는 데 필요한 개방력은 (   ) N 이하이어야 한다. (숫자만 입력)",
+        answers: ["110"],
+        explain: "정답: 110 N 이하 (피난자가 차압을 이기고 문을 쉽게 열 수 있도록 정한 최대 개방력 기준입니다.)"
+      }
+    ];
+
+    let remaining = TOTAL_SECONDS;
+    let timerId = null;
+    let submitted = false;
+
+    const timerEl = document.getElementById("timer");
+    const introSection = document.getElementById("introSection");
+    const quizSection = document.getElementById("quizSection");
+    const questionsWrap = document.getElementById("questionsWrap");
+    const resultBox = document.getElementById("resultBox");
+
+    function formatTime(sec) {
+      const m = String(Math.floor(sec / 60)).padStart(2, "0");
+      const s = String(sec % 60).padStart(2, "0");
+      return `${m}:${s}`;
+    }
+
+    function renderQuestions() {
+      questionsWrap.innerHTML = "";
+      QUESTIONS.forEach((q, idx) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.id = `q-card-${q.id}`;
+
+        let inputHtml = "";
+        if (q.type === "blank") {
+          inputHtml = `<input type="text" class="blank-input" id="ans-${q.id}" placeholder="정답 입력" autocomplete="off" />`;
+        } else {
+          inputHtml = `<div class="options">` + q.choices.map((c, ci) => `
+            <label class="opt-label" data-q="${q.id}">
+              <input type="radio" name="ans-${q.id}" value="${ci}" />
+              <span>${c}</span>
+            </label>
+          `).join("") + `</div>`;
+        }
+
+        card.innerHTML = `
+          <div class="q-head">
+            <span class="q-num">Q${idx + 1}.</span>
+            <span class="q-ref">${q.ref}</span>
+          </div>
+          <p class="q-text">${q.prompt}</p>
+          ${inputHtml}
+          <div class="explain" id="exp-${q.id}">${q.explain}</div>
+        `;
+        questionsWrap.appendChild(card);
+      });
+
+      document.querySelectorAll(".opt-label input").forEach(inp => {
+        inp.addEventListener("change", (e) => {
+          const name = e.target.name;
+          document.querySelectorAll(`input[name="${name}"]`).forEach(el => {
+            el.closest(".opt-label").classList.toggle("selected", el.checked);
+          });
+        });
+      });
+    }
+
+    function startTimer() {
+      clearInterval(timerId);
+      remaining = TOTAL_SECONDS;
+      timerEl.textContent = formatTime(remaining);
+      timerEl.className = "timer";
+      timerId = setInterval(() => {
+        remaining--;
+        timerEl.textContent = formatTime(Math.max(0, remaining));
+        if (remaining <= 60 && remaining > 20) timerEl.className = "timer warn";
+        if (remaining <= 20) timerEl.className = "timer danger";
+        if (remaining <= 0) {
+          clearInterval(timerId);
+          gradeQuiz(true);
+        }
+      }, 1000);
+    }
+
+    function normalize(str) {
+      return String(str || "").trim().toLowerCase().replace(/\s+/g, "");
+    }
+
+    function gradeQuiz(isTimeout = false) {
+      if (submitted) return;
+      submitted = true;
+      clearInterval(timerId);
+
+      let score = 0;
+      QUESTIONS.forEach(q => {
+        const card = document.getElementById(`q-card-${q.id}`);
+        const exp = document.getElementById(`exp-${q.id}`);
+        let ok = false;
+
+        if (q.type === "blank") {
+          const val = normalize(document.getElementById(`ans-${q.id}`).value);
+          ok = q.answers.some(a => normalize(a) === val);
+          document.getElementById(`ans-${q.id}`).disabled = true;
+        } else {
+          const checked = document.querySelector(`input[name="ans-${q.id}"]:checked`);
+          ok = checked && Number(checked.value) === q.answerIndex;
+          document.querySelectorAll(`input[name="ans-${q.id}"]`).forEach(el => el.disabled = true);
+        }
+
+        if (ok) score++;
+        card.classList.add(ok ? "correct" : "wrong");
+        exp.classList.add("show");
+      });
+
+      const spent = TOTAL_SECONDS - Math.max(0, remaining);
+      const sm = Math.floor(spent / 60);
+      const ss = spent % 60;
+      document.getElementById("resultTitle").textContent = isTimeout ? "⏰ 시간 종료 · 자동 채점" : "✅ 채점 완료";
+      document.getElementById("scoreText").textContent = `${score} / ${QUESTIONS.length}점`;
+      document.getElementById("timeSpentText").textContent = `소요 시간: ${sm}분 ${ss}초`;
+      resultBox.classList.add("show");
+      document.getElementById("submitBtn").classList.add("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.getElementById("startBtn").addEventListener("click", () => {
+      submitted = false;
+      renderQuestions();
+      introSection.classList.add("hidden");
+      resultBox.classList.remove("show");
+      quizSection.classList.remove("hidden");
+      document.getElementById("submitBtn").classList.remove("hidden");
+      startTimer();
+    });
+
+    document.getElementById("submitBtn").addEventListener("click", () => gradeQuiz(false));
+
+    document.getElementById("retryBtn").addEventListener("click", () => {
+      submitted = false;
+      renderQuestions();
+      resultBox.classList.remove("show");
+      document.getElementById("submitBtn").classList.remove("hidden");
+      startTimer();
+    });
+
+    document.getElementById("copyBtn").addEventListener("click", async () => {
+      const score = document.getElementById("scoreText").textContent;
+      const spent = document.getElementById("timeSpentText").textContent;
+      const text = `🚒 소방기술사 5분 컷 (${QUIZ_DATE})\n결과: ${score} (${spent})`;
+      try {
+        await navigator.clipboard.writeText(text);
+        document.getElementById("copyBtn").textContent = "✅ 복사 완료!";
+        setTimeout(() => { document.getElementById("copyBtn").textContent = "📋 결과 복사해서 인증하기"; }, 2000);
+      } catch {
+        alert(text);
+      }
+    });
+  </script>
+</body>
+</html>
