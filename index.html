@@ -35,11 +35,13 @@
       background: rgba(255, 255, 255, 0.94);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
-      padding: 12px 16px;
+      padding: 12px 16px 10px;
     }
     .topbar-inner {
       max-width: 680px;
       margin: 0 auto;
+    }
+    .topbar-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -51,6 +53,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      flex-wrap: wrap;
     }
     .badge {
       font-size: 11px;
@@ -76,9 +79,31 @@
     .timer.danger { background: #dc2626; animation: pulse 1s infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.72; } }
 
+    .tabs {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      border: 1px solid var(--border);
+      background: #f9fafb;
+      color: #374151;
+      padding: 8px 6px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .tab-btn.active {
+      background: #111827;
+      color: #fff;
+      border-color: #111827;
+    }
+
     .container {
       max-width: 680px;
-      margin: 18px auto 0;
+      margin: 16px auto 0;
       padding: 0 16px;
     }
     .card {
@@ -93,15 +118,8 @@
       text-align: center;
       padding: 28px 20px;
     }
-    .intro-card h1 {
-      margin: 0 0 8px;
-      font-size: 22px;
-    }
-    .intro-card p {
-      margin: 0 0 18px;
-      color: var(--muted);
-      font-size: 14px;
-    }
+    .intro-card h1 { margin: 0 0 8px; font-size: 22px; }
+    .intro-card p { margin: 0 0 18px; color: var(--muted); font-size: 14px; }
     .meta-row {
       display: flex;
       justify-content: center;
@@ -124,8 +142,8 @@
       gap: 6px;
       border: none;
       border-radius: 12px;
-      padding: 13px 20px;
-      font-size: 15px;
+      padding: 12px 16px;
+      font-size: 14px;
       font-weight: 700;
       cursor: pointer;
       transition: transform 0.08s, opacity 0.15s;
@@ -135,18 +153,17 @@
     .btn-primary { background: var(--primary); color: #fff; }
     .btn-dark { background: #111827; color: #fff; }
     .btn-outline { background: #fff; color: #111827; border: 1px solid var(--border); }
+    .btn-sm { padding: 7px 10px; font-size: 12px; border-radius: 8px; width: auto; }
 
     .q-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 8px;
       margin-bottom: 8px;
+      flex-wrap: wrap;
     }
-    .q-num {
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--primary);
-    }
+    .q-num { font-size: 13px; font-weight: 800; color: var(--primary); }
     .q-ref {
       font-size: 11px;
       font-weight: 600;
@@ -155,10 +172,14 @@
       padding: 2px 8px;
       border-radius: 6px;
     }
-    .q-text {
-      font-size: 15px;
-      font-weight: 600;
-      margin: 0 0 12px;
+    .q-text { font-size: 15px; font-weight: 600; margin: 0 0 12px; }
+    .prev-wrong {
+      font-size: 12px;
+      color: #b91c1c;
+      background: #fef2f2;
+      border-radius: 8px;
+      padding: 6px 10px;
+      margin-bottom: 10px;
     }
     .blank-input {
       width: 100%;
@@ -170,11 +191,7 @@
       outline: none;
     }
     .blank-input:focus { border-color: var(--accent); }
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+    .options { display: flex; flex-direction: column; gap: 8px; }
     .opt-label {
       display: flex;
       align-items: center;
@@ -207,57 +224,133 @@
       border: 2px solid #111827;
     }
     .result-box.show { display: block; }
-    .score-big {
-      font-size: 34px;
-      font-weight: 900;
-      margin: 6px 0;
-    }
+    .score-big { font-size: 34px; font-weight: 900; margin: 6px 0; }
     .hidden { display: none; }
     .btn-row { display: flex; gap: 8px; margin-top: 14px; }
+
+    .history-wrap {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      text-align: left;
+    }
+    .history-title {
+      font-size: 14px;
+      font-weight: 800;
+      margin: 0 0 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .history-stats {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: #f9fafb;
+      border: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .history-score { font-weight: 800; color: #111827; }
+    .empty-state {
+      text-align: center;
+      padding: 28px 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <div class="brand">
-        <span>🚒 소방기술사 20문제</span>
-        <span class="badge" id="roundBadge">2026-11-27 · 2회차</span>
+      <div class="topbar-row">
+        <div class="brand">
+          <span>🚒 소방기술사 20문제</span>
+          <span class="badge" id="roundBadge">2026-11-27 · 2회차</span>
+        </div>
+        <div class="timer" id="timer">05:00</div>
       </div>
-      <div class="timer" id="timer">05:00</div>
+      <div class="tabs">
+        <button class="tab-btn active" id="tabToday" onclick="switchTab('today')">🔥 오늘 시험</button>
+        <button class="tab-btn" id="tabReview" onclick="switchTab('review')">📌 틀린 문제 (<span id="wrongCountBadge">0</span>)</button>
+        <button class="tab-btn" id="tabHistory" onclick="switchTab('history')">📊 한 달 기록</button>
+      </div>
     </div>
   </header>
 
   <main class="container">
-    <section class="card intro-card" id="introSection">
-      <h1>🔥 오늘의 소방기술사 5분 컷</h1>
-      <p>화재안전성능기준(NFPC)·화재안전기술기준(NFTC) 핵심 20문제입니다.<br/>시작 버튼을 누르면 <strong>5분 타이머</strong>가 바로 작동합니다.</p>
-      <div class="meta-row">
-        <span class="meta-pill">⏱ 제한시간 5분</span>
-        <span class="meta-pill">📝 빈칸 + 객관식 20문항</span>
-        <span class="meta-pill">✅ 제출 즉시 채점·해설</span>
-      </div>
-      <button class="btn btn-primary" id="startBtn">5분 시험 시작하기</button>
+    <!-- 1. 오늘 시험 탭 -->
+    <section id="viewToday">
+      <section class="card intro-card" id="introSection">
+        <h1>🔥 오늘의 소방기술사 5분 컷</h1>
+        <p>화재안전성능기준(NFPC)·화재안전기술기준(NFTC) 핵심 20문제입니다.<br/>시작 버튼을 누르면 <strong>5분 타이머</strong>가 바로 작동합니다.</p>
+        <div class="meta-row">
+          <span class="meta-pill">⏱ 제한시간 5분</span>
+          <span class="meta-pill">📝 빈칸 + 객관식 20문항</span>
+          <span class="meta-pill">💾 오답·한 달 점수 자동 저장</span>
+        </div>
+        <button class="btn btn-primary" id="startBtn">5분 시험 시작하기</button>
+      </section>
+
+      <section class="card result-box" id="resultBox">
+        <div id="resultTitle" style="font-weight:800; font-size:15px;">채점 결과</div>
+        <div class="score-big" id="scoreText">0 / 20점</div>
+        <div id="timeSpentText" style="color:var(--muted); font-size:13px;"></div>
+        <div id="wrongSavedNote" style="color:#b91c1c; font-size:12px; font-weight:600; margin-top:4px;"></div>
+        <div class="btn-row">
+          <button class="btn btn-dark" id="copyBtn">📋 결과 복사해서 인증하기</button>
+          <button class="btn btn-outline" id="retryBtn">🔄 다시 풀기</button>
+        </div>
+        <div class="history-wrap" id="resultHistoryWrap"></div>
+      </section>
+
+      <section id="quizSection" class="hidden">
+        <div id="questionsWrap"></div>
+        <button class="btn btn-primary" id="submitBtn">제출하고 채점하기</button>
+      </section>
     </section>
 
-    <section class="card result-box" id="resultBox">
-      <div id="resultTitle" style="font-weight:800; font-size:15px;">채점 결과</div>
-      <div class="score-big" id="scoreText">0 / 10</div>
-      <div id="timeSpentText" style="color:var(--muted); font-size:13px;"></div>
-      <div class="btn-row">
-        <button class="btn btn-dark" id="copyBtn">📋 결과 복사해서 인증하기</button>
-        <button class="btn btn-outline" id="retryBtn">🔄 다시 풀기</button>
+    <!-- 2. 틀린 문제 복습 탭 -->
+    <section id="viewReview" class="hidden">
+      <div class="card">
+        <div class="q-head" style="margin-bottom:4px;">
+          <span style="font-weight:800; font-size:16px;">📌 틀린 문제 오답 복습</span>
+          <div style="display:flex; gap:6px;">
+            <button class="btn btn-outline btn-sm" onclick="clearSolvedReview()">맞힌 문제 비우기</button>
+            <button class="btn btn-primary btn-sm" onclick="gradeReview()">복습 채점하기</button>
+          </div>
+        </div>
+        <div style="font-size:13px; color:var(--muted);">어제와 그동안 틀린 문제가 날짜가 지나도 그대로 남아요. 다시 풀어서 맞힌 뒤 정리해 보세요!</div>
       </div>
+      <div id="reviewWrap"></div>
     </section>
 
-    <section id="quizSection" class="hidden">
-      <div id="questionsWrap"></div>
-      <button class="btn btn-primary" id="submitBtn">제출하고 채점하기</button>
+    <!-- 3. 한 달 점수 기록 탭 -->
+    <section id="viewHistory" class="hidden">
+      <div class="card" id="historyFullCard"></div>
     </section>
   </main>
 
   <script>
     const QUIZ_DATE = "2026-11-27 (2회차)";
     const TOTAL_SECONDS = 300;
+    const HISTORY_KEY = "fire_quiz_history_v1";
+    const WRONG_KEY = "fire_quiz_wrong_v1";
+    const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+
     const QUESTIONS = [
       {
         id: 1,
@@ -441,6 +534,7 @@
     let remaining = TOTAL_SECONDS;
     let timerId = null;
     let submitted = false;
+    let solvedKeysInReview = new Set();
 
     const timerEl = document.getElementById("timer");
     const introSection = document.getElementById("introSection");
@@ -448,10 +542,68 @@
     const questionsWrap = document.getElementById("questionsWrap");
     const resultBox = document.getElementById("resultBox");
 
+    function loadJson(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch {
+        return fallback;
+      }
+    }
+
+    function saveJson(key, val) {
+      try {
+        localStorage.setItem(key, JSON.stringify(val));
+      } catch {}
+    }
+
+    function getHistory() {
+      const now = Date.now();
+      const list = loadJson(HISTORY_KEY, []).filter(item => (now - (item.ts || 0)) <= THIRTY_DAYS_MS);
+      saveJson(HISTORY_KEY, list);
+      return list;
+    }
+
+    function addHistory(score, total, spentSec) {
+      const list = getHistory().filter(item => item.round !== QUIZ_DATE);
+      list.unshift({
+        round: QUIZ_DATE,
+        score,
+        total,
+        spentSec,
+        ts: Date.now()
+      });
+      saveJson(HISTORY_KEY, list);
+    }
+
+    function getWrongBank() {
+      return loadJson(WRONG_KEY, []);
+    }
+
+    function saveWrongBank(list) {
+      saveJson(WRONG_KEY, list);
+      updateWrongBadge();
+    }
+
+    function updateWrongBadge() {
+      document.getElementById("wrongCountBadge").textContent = getWrongBank().length;
+    }
+
     function formatTime(sec) {
       const m = String(Math.floor(sec / 60)).padStart(2, "0");
       const s = String(sec % 60).padStart(2, "0");
       return `${m}:${s}`;
+    }
+
+    function switchTab(tab) {
+      document.getElementById("viewToday").classList.toggle("hidden", tab !== "today");
+      document.getElementById("viewReview").classList.toggle("hidden", tab !== "review");
+      document.getElementById("viewHistory").classList.toggle("hidden", tab !== "history");
+      document.getElementById("tabToday").classList.toggle("active", tab === "today");
+      document.getElementById("tabReview").classList.toggle("active", tab === "review");
+      document.getElementById("tabHistory").classList.toggle("active", tab === "history");
+      if (tab === "review") renderReview();
+      if (tab === "history") renderHistoryFull();
     }
 
     function renderQuestions() {
@@ -485,10 +637,10 @@
         questionsWrap.appendChild(card);
       });
 
-      document.querySelectorAll(".opt-label input").forEach(inp => {
+      document.querySelectorAll("#questionsWrap .opt-label input").forEach(inp => {
         inp.addEventListener("change", (e) => {
           const name = e.target.name;
-          document.querySelectorAll(`input[name="${name}"]`).forEach(el => {
+          document.querySelectorAll(`#questionsWrap input[name="${name}"]`).forEach(el => {
             el.closest(".opt-label").classList.toggle("selected", el.checked);
           });
         });
@@ -516,41 +668,204 @@
       return String(str || "").trim().toLowerCase().replace(/\s+/g, "");
     }
 
+    function renderMonthlySummaryHtml() {
+      const list = getHistory();
+      if (!list.length) {
+        return `<div class="empty-state">아직 저장된 한 달 점수 기록이 없어요.</div>`;
+      }
+      const avgPct = Math.round(
+        list.reduce((acc, it) => acc + (it.total ? (it.score / it.total) * 100 : 0), 0) / list.length
+      );
+      const rows = list.map(it => {
+        const sm = Math.floor((it.spentSec || 0) / 60);
+        const ss = (it.spentSec || 0) % 60;
+        return `
+          <div class="history-item">
+            <div>
+              <div style="font-weight:700;">${it.round}</div>
+              <div style="font-size:11px; color:var(--muted);">소요 ${sm}분 ${ss}초</div>
+            </div>
+            <div class="history-score">${it.score} / ${it.total}점</div>
+          </div>
+        `;
+      }).join("");
+
+      return `
+        <div class="history-title">
+          <span>📅 최근 한 달 점수 기록</span>
+          <span class="history-stats">총 ${list.length}회 · 평균 ${avgPct}%</span>
+        </div>
+        <div class="history-list">${rows}</div>
+      `;
+    }
+
+    function renderHistoryFull() {
+      document.getElementById("historyFullCard").innerHTML = renderMonthlySummaryHtml();
+    }
+
     function gradeQuiz(isTimeout = false) {
       if (submitted) return;
       submitted = true;
       clearInterval(timerId);
 
       let score = 0;
+      const bankMap = new Map(getWrongBank().map(item => [item.key, item]));
+      let wrongTodayCount = 0;
+
       QUESTIONS.forEach(q => {
         const card = document.getElementById(`q-card-${q.id}`);
         const exp = document.getElementById(`exp-${q.id}`);
         let ok = false;
+        let userAnswerText = "(미입력)";
 
         if (q.type === "blank") {
-          const val = normalize(document.getElementById(`ans-${q.id}`).value);
-          ok = q.answers.some(a => normalize(a) === val);
+          const rawVal = document.getElementById(`ans-${q.id}`).value;
+          if (rawVal.trim()) userAnswerText = rawVal.trim();
+          ok = q.answers.some(a => normalize(a) === normalize(rawVal));
           document.getElementById(`ans-${q.id}`).disabled = true;
         } else {
-          const checked = document.querySelector(`input[name="ans-${q.id}"]:checked`);
+          const checked = document.querySelector(`#questionsWrap input[name="ans-${q.id}"]:checked`);
+          if (checked) userAnswerText = q.choices[Number(checked.value)];
           ok = checked && Number(checked.value) === q.answerIndex;
-          document.querySelectorAll(`input[name="ans-${q.id}"]`).forEach(el => el.disabled = true);
+          document.querySelectorAll(`#questionsWrap input[name="ans-${q.id}"]`).forEach(el => el.disabled = true);
         }
 
-        if (ok) score++;
+        const key = `${QUIZ_DATE}::${q.id}`;
+        if (ok) {
+          score++;
+        } else {
+          wrongTodayCount++;
+          bankMap.set(key, {
+            key,
+            round: QUIZ_DATE,
+            id: q.id,
+            ref: q.ref,
+            type: q.type,
+            prompt: q.prompt,
+            choices: q.choices || null,
+            answerIndex: q.answerIndex ?? null,
+            answers: q.answers || null,
+            explain: q.explain,
+            userAnswerText
+          });
+        }
+
         card.classList.add(ok ? "correct" : "wrong");
         exp.classList.add("show");
       });
 
+      saveWrongBank(Array.from(bankMap.values()));
+
       const spent = TOTAL_SECONDS - Math.max(0, remaining);
       const sm = Math.floor(spent / 60);
       const ss = spent % 60;
+      addHistory(score, QUESTIONS.length, spent);
+
       document.getElementById("resultTitle").textContent = isTimeout ? "⏰ 시간 종료 · 자동 채점" : "✅ 채점 완료";
       document.getElementById("scoreText").textContent = `${score} / ${QUESTIONS.length}점`;
       document.getElementById("timeSpentText").textContent = `소요 시간: ${sm}분 ${ss}초`;
+      document.getElementById("wrongSavedNote").textContent =
+        wrongTodayCount > 0
+          ? `📌 틀린 ${wrongTodayCount}문제는 [틀린 문제] 탭에 자동 저장되었어요.`
+          : "🎉 만점이에요! 오늘 틀린 문제가 없습니다.";
+      document.getElementById("resultHistoryWrap").innerHTML = renderMonthlySummaryHtml();
+
       resultBox.classList.add("show");
       document.getElementById("submitBtn").classList.add("hidden");
       window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderReview() {
+      const wrap = document.getElementById("reviewWrap");
+      const list = getWrongBank();
+      solvedKeysInReview = new Set();
+
+      if (!list.length) {
+        wrap.innerHTML = `<div class="card empty-state">저장된 틀린 문제가 없어요!<br/>시험에서 틀린 문제가 생기면 여기에 자동으로 쌓입니다.</div>`;
+        return;
+      }
+
+      wrap.innerHTML = list.map((q, idx) => {
+        const safeKey = encodeURIComponent(q.key);
+        let inputHtml = "";
+        if (q.type === "blank") {
+          inputHtml = `<input type="text" class="blank-input" id="rev-ans-${idx}" placeholder="정답 다시 입력" autocomplete="off" />`;
+        } else {
+          inputHtml = `<div class="options">` + q.choices.map((c, ci) => `
+            <label class="opt-label">
+              <input type="radio" name="rev-ans-${idx}" value="${ci}" />
+              <span>${c}</span>
+            </label>
+          `).join("") + `</div>`;
+        }
+
+        return `
+          <div class="card" id="rev-card-${idx}" data-key="${safeKey}">
+            <div class="q-head">
+              <span class="q-num">오답 ${idx + 1}. (${q.round})</span>
+              <div style="display:flex; gap:6px; align-items:center;">
+                <span class="q-ref">${q.ref}</span>
+                <button class="btn btn-outline btn-sm" onclick="removeWrongItem('${safeKey}')">삭제</button>
+              </div>
+            </div>
+            <div class="prev-wrong">이전 입력: ${q.userAnswerText || "(미입력)"}</div>
+            <p class="q-text">${q.prompt}</p>
+            ${inputHtml}
+            <div class="explain" id="rev-exp-${idx}">${q.explain}</div>
+          </div>
+        `;
+      }).join("");
+
+      wrap.querySelectorAll(".opt-label input").forEach(inp => {
+        inp.addEventListener("change", (e) => {
+          const name = e.target.name;
+          wrap.querySelectorAll(`input[name="${name}"]`).forEach(el => {
+            el.closest(".opt-label").classList.toggle("selected", el.checked);
+          });
+        });
+      });
+    }
+
+    function gradeReview() {
+      const list = getWrongBank();
+      if (!list.length) return;
+      solvedKeysInReview = new Set();
+
+      list.forEach((q, idx) => {
+        const card = document.getElementById(`rev-card-${idx}`);
+        const exp = document.getElementById(`rev-exp-${idx}`);
+        let ok = false;
+
+        if (q.type === "blank") {
+          const rawVal = document.getElementById(`rev-ans-${idx}`).value;
+          ok = (q.answers || []).some(a => normalize(a) === normalize(rawVal));
+        } else {
+          const checked = document.querySelector(`#reviewWrap input[name="rev-ans-${idx}"]:checked`);
+          ok = checked && Number(checked.value) === q.answerIndex;
+        }
+
+        card.classList.remove("correct", "wrong");
+        card.classList.add(ok ? "correct" : "wrong");
+        exp.classList.add("show");
+        if (ok) solvedKeysInReview.add(q.key);
+      });
+    }
+
+    function removeWrongItem(encodedKey) {
+      const key = decodeURIComponent(encodedKey);
+      const next = getWrongBank().filter(item => item.key !== key);
+      saveWrongBank(next);
+      renderReview();
+    }
+
+    function clearSolvedReview() {
+      if (!solvedKeysInReview.size) {
+        alert("먼저 [복습 채점하기]를 눌러 맞힌 문제를 확인해 주세요!");
+        return;
+      }
+      const next = getWrongBank().filter(item => !solvedKeysInReview.has(item.key));
+      saveWrongBank(next);
+      renderReview();
     }
 
     document.getElementById("startBtn").addEventListener("click", () => {
@@ -585,6 +900,8 @@
         alert(text);
       }
     });
+
+    updateWrongBadge();
   </script>
 </body>
 </html>
